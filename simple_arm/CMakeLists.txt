@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+add_compile_options(-std=c++11)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -114,6 +115,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
+# include_directories(include)
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -192,6 +194,7 @@ catkin_package(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
 include_directories(include ${catkin_INCLUDE_DIRS})
 
 add_executable(simple_mover src/simple_mover.cpp)
@@ -201,4 +204,3 @@ add_dependencies(simple_mover simple_arm_generate_messages_cpp)
 add_executable(arm_mover src/arm_mover.cpp)
 target_link_libraries(arm_mover ${catkin_LIBRARIES})
 add_dependencies(arm_mover simple_arm_generate_messages_cpp)
-add_compile_options(-std=c++ll)
