@@ -20,7 +20,7 @@ bool handle_drive_request(ball_chaser::DriveToTarget::Request& req, ball_chaser:
         motor_command_publisher.publish(motor_command);
 
 	// Return a response message
-	res.msg_feedback = "Linear x set to " + (float)req.linear_x + ", Angular z set to " + (float)req.angular_z;
+	res.msg_feedback = "Linear x set to " + std::to_string((float)req.linear_x) + ", Angular z set to " + std::to_string((float)req.angular_z);
 	ROS_INFO_STREAM(res.msg_feedback);
 
 	return true;
