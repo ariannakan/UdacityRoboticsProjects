@@ -40,7 +40,7 @@ void process_image_callback(const sensor_msgs::Image img)
                 ROS_INFO("White pixel found on left side");
                 drive_robot(0.0, 0.5);
                 break;
-            } else if (mid_row < (img.width / 3)*2) {
+            } else if (col < (img.width / 3)*2) {
                 ROS_INFO("White pixel found in middle panel");
                 drive_robot(0.5, 0.0);
                 break;
