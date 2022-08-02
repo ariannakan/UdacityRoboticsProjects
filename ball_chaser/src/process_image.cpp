@@ -27,52 +27,33 @@ void process_image_callback(const sensor_msgs::Image img)
 {
 
     int white_pixel = 255;
-    vector<int> white_rows;
-    vector<int> white_cols;
 
     // TODO: Loop through each pixel in the image and check if there's a bright white one
     // Then, identify if this pixel falls in the left, mid, or right side of the image
     // Depending on the white ball position, call the drive_bot function and pass velocities to it
     // Request a stop when there's no white ball seen by the camera
-    for (int row = 0; row <= img.height; ++row) {
-        for (int col = 0; col <= img.width; ++col) {
-            if (img.data[row][col] == white_pixel) {
-                if (!white_rows.empty())
-                    if (white_rows.back().c != row){
-                        white_rows.push_back(row);
-                    }
-                if (!white_cols.empty())
-                    if (white_cols.back().c != col){
-                        white_cols.push_back(col);
-                    }
+    for (auto pixel : img.data){
+        if (img.data[pixel] == white_pixel){
+            // determine where the pixel falls
+            int col = img.data[pixel] % img.width;
+            if (col < (img.width / 3)){
+                ROS_INFO("White pixel found on left side");
+                drive_robot(0.0, 0.5);
+                break;
+            } else if (mid_row < (img.width / 3)*2) {
+                ROS_INFO("White pixel found in middle panel");
+                drive_robot(0.5, 0.0);
+                break;
+            } else {
+                ROS_INFO("White pixel found on right side");
+                drive_robot(-0.0, -0.5);
+                break;
             }
-        }
-    }
-
-    if (white_rows.empty()){
-        ROS_INFO("No white ball in frame - stopping robot");
-        drive_robot(0.0, 0.0);
-    } else {
-        // Calculate midpoint of white ball
-        int mid_row = white_rows.begin() + white_rows.size() / 2;
-        int mid_col = white_cols.begin() + white_cols.size() / 2;
-        ROS_INFO("White ball midpoint at %d,%d", mid_row, mid_col);
-        ROS_INFO("White ball edges: row %d - %d, col %d - %d", white_rows.front(), white_rows.back(), white_cols.front(), white_cols.back());
-
-        // Check where midpoint of ball is placed and set robot drive
-        if (mid_row < (img.width / 3)){
-            drive_robot(0.0, 0.5);
-        } else if (mid_row < (img.width / 3)*2) {
-            drive_robot(0.5, 0.0);
         } else {
-            drive_robot(-0.0, -0.5);
+            ROS_INFO("No white pixel found");
+            drive_robot(0.0, 0.0);
         }
     }
-
-    
-
-    
-
 
 }
 
