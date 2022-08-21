@@ -25,34 +25,45 @@ void drive_robot(float lin_x, float ang_z)
 // This callback function continuously executes and reads the image data
 void process_image_callback(const sensor_msgs::Image img)
 {
-
+    // pixel encoding rgb8 -> 3 channels 
     int white_pixel = 255;
+    int red_channel = 0;
+    int green_channel = 1;
+    int blue_channel = 2;
+    int found_white_pixel = 0;
+    
 
     // TODO: Loop through each pixel in the image and check if there's a bright white one
     // Then, identify if this pixel falls in the left, mid, or right side of the image
     // Depending on the white ball position, call the drive_bot function and pass velocities to it
     // Request a stop when there's no white ball seen by the camera
-    for (auto pixel : img.data){
-        if (img.data[pixel] == white_pixel){
-            // determine where the pixel falls
-            int col = img.data[pixel] % img.width;
-            if (col < (img.width / 3)){
-                ROS_INFO("White pixel found on left side");
-                drive_robot(0.0, 0.5);
-                break;
-            } else if (col < (img.width / 3)*2) {
-                ROS_INFO("White pixel found in middle panel");
-                drive_robot(0.5, 0.0);
-                break;
-            } else {
-                ROS_INFO("White pixel found on right side");
-                drive_robot(-0.0, -0.5);
-                break;
-            }
-        } else {
-            ROS_INFO("No white pixel found");
-            drive_robot(0.0, 0.0);
-        }
+    
+    for (unsigned int row=0; row < img.height; row++){
+	for (unsigned int col=0; col < img.step; col++){
+	    int index = row * img.step + col;
+	    if (img.data[index+red_channel] == white_pixel && img.data[index+green_channel] == white_pixel && img.data[index+blue_channel] == white_pixel){
+		ROS_INFO("FOUND WHITE PIXEL");
+		found_white_pixel = index;
+		break;
+	    }
+	}
+    }
+    if(found_white_pixel==0){
+        ROS_INFO("No white pixel found");
+        drive_robot(0.0, 0.0);
+	return;
+    }
+    // determine where the pixel falls
+    int pixel = found_white_pixel % img.width;
+    if (pixel < (img.step / 3)){
+        ROS_INFO("White pixel found on left side");
+  	drive_robot(0.5, 0.5);
+    } else if (pixel < (img.step / 3)*2) {
+    	ROS_INFO("White pixel found in middle panel");
+	drive_robot(1.0, 0.0);
+    } else {
+    	ROS_INFO("White pixel found on right side");
+	drive_robot(0.5, -0.5);
     }
 
 }
