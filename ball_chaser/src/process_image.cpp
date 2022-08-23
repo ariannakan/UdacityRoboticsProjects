@@ -54,7 +54,7 @@ void process_image_callback(const sensor_msgs::Image img)
 	return;
     }
     // determine where the pixel falls
-    int pixel = found_white_pixel % img.width;
+    int pixel = found_white_pixel % img.step;
     if (pixel < (img.step / 3)){
         ROS_INFO("White pixel found on left side");
   	drive_robot(0.5, 0.5);
