@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+  <include file="$(find turtlebot_gazebo)/launch/gmapping_demo.launch">
+    <arg name="map_update_interval" value="1.0"/>
+    <arg name="iterations" value="5.0"/>
+    <arg name="angularUpdate" value="0.1"/>
+    <arg name="linearUpdate" value="0.1"/>
+  </include>
+</launch>
