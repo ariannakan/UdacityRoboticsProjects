@@ -2,7 +2,7 @@
 
 <robot name="my_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find my_robot)/urdf/my_robot.gazebo" />
+  <xacro:include filename="$(find home_service_robot)/urdf/my_robot.gazebo" />
 
   <link name="robot_footprint"></link>
 
@@ -213,7 +213,7 @@
     <visual name="hokuyo_visual">
       <origin xyz="0 0 0" rpy=" 0 0 0"/>
       <geometry>
-        <mesh filename="package://my_robot/meshes/hokuyo.dae"/>
+        <mesh filename="package://home_service_robot/meshes/hokuyo.dae"/>
       </geometry>
     </visual>
 
