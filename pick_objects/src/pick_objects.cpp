@@ -9,7 +9,7 @@ using namespace std;
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 // Function Declaration
-int send_to_goal(double x, double y);
+int send_to_goal(double x, double y, MoveBaseClient* mbc);
 
 int main(int argc, char** argv){
   // Initialize the simple_navigation_goals node
@@ -28,7 +28,7 @@ int main(int argc, char** argv){
   double pickup_w = 1.0;
 
   ROS_INFO("Sending pickup goal");
-  send_to_goal(pickup_x, pickup_w, ac);
+  send_to_goal(pickup_x, pickup_w, &ac);
 
   sleep(5);
 
@@ -36,12 +36,12 @@ int main(int argc, char** argv){
   double dropoff_w = 3.5;
 
   ROS_INFO("Sending dropoff goal");
-  send_to_goal(dropoff_x, dropoff_w, ac);
+  send_to_goal(dropoff_x, dropoff_w, &ac);
 
   return 0;
 }
 
-int send_to_goal(double x, double y, actionlib::SimpleActionClient ac){
+int send_to_goal(double x, double y, MoveBaseClient* mbc){
   move_base_msgs::MoveBaseGoal goal;
 
   // set up the frame parameters
@@ -53,14 +53,14 @@ int send_to_goal(double x, double y, actionlib::SimpleActionClient ac){
   goal.target_pose.pose.orientation.w = y;
 
    // Send the goal position and orientation for the robot to reach
-  ac.sendGoal(goal);
+  mbc->sendGoal(goal);
 
   // Wait an infinite time for the results
-  ac.waitForResult();
+  mbc->waitForResult();
 
   // Check if the robot reached its goal
   string goal_type = (x == 1.0) ? "pickup" : "dropoff";
-  if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+  if(mbc->getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
     ROS_INFO("Hooray - Reached %s goal!", goal_type);
   else
     ROS_INFO("Darn - Failed to reach %s goal.", goal_type);
