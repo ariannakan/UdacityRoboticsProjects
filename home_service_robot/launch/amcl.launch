@@ -20,9 +20,9 @@
     <param name="max_particles" value="1000"/>
     
     <!-- Initial Pose -->
-    <param name="initial_pose_x" value="0.013"/>
-    <param name="initial_pose_y" value="-1.911"/>
-    <param name="initial_pose_a" value="3.1415"/>
+    <param name="initial_pose_x" value="-1.129"/>
+    <param name="initial_pose_y" value="-3.888"/>
+    <param name="initial_pose_a" value="3.134"/>
 
     <!--Laser model parameters-->
     <param name="laser_sigma_hit" value="0.3"/>
@@ -42,11 +42,11 @@
     <!--remap from="scan" to="whereami/laser/scan"/-->
     <param name="base_global_planner" value="navfn/NavfnROS" />
     <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
-    <rosparam file="$(find whereami)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find whereami)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find whereami)/config/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find whereami)/config/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find whereami)/config/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find home_service_robot)/launch/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find home_service_robot)/launch/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find home_service_robot)/launch/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find home_service_robot)/launch/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find home_service_robot)/launch/config/base_local_planner_params.yaml" command="load" />
   </node>
 
 
