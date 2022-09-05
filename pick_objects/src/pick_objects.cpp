@@ -24,16 +24,18 @@ int main(int argc, char** argv){
   };
 
   // Define a position and orientation for the robot to reach
-  double pickup_x = 1.0;
-  double pickup_w = 1.0;
+  double pickup_x = 3.5;
+  double pickup_w = 3.5;
 
   ROS_INFO("Sending pickup goal");
   send_to_goal(pickup_x, pickup_w, &ac);
 
-  sleep(5);
+  ROS_INFO("Picking up package...");
+  ros::Duration(5.0).sleep();
+  ROS_INFO("Picked up package!");
 
-  double dropoff_x = 3.5;
-  double dropoff_w = 3.5;
+  double dropoff_x = -3.0;
+  double dropoff_w = 1.0;
 
   ROS_INFO("Sending dropoff goal");
   send_to_goal(dropoff_x, dropoff_w, &ac);
@@ -59,9 +61,11 @@ int send_to_goal(double x, double y, MoveBaseClient* mbc){
   mbc->waitForResult();
 
   // Check if the robot reached its goal
-  string goal_type = (x == 1.0) ? "pickup" : "dropoff";
+  string goal_type = (x == 3.5) ? "pickup" : "dropoff";
   if(mbc->getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-    ROS_INFO("Hooray - Reached %s goal!", goal_type);
+    ROS_INFO("Hooray - Reached %s goal!", goal_type.c_str());
   else
-    ROS_INFO("Darn - Failed to reach %s goal.", goal_type);
+    ROS_INFO("Darn - Failed to reach %s goal.", goal_type.c_str());
+  
+  return 0;
 }
