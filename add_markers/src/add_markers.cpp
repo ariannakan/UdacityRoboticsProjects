@@ -1,9 +1,11 @@
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
+#include <pick_objects/goal_state_msg.h>
 
 visualization_msgs::Marker marker;
 
-void goal_state_callback(cons pick_objects::goal_state_msg::ConstPtr& msg){
+void goal_state_callback(const pick_objects::goal_state_msg::ConstPtr& msg){
+  //ROS_INFO("INSIDE CALLBACK");
   if(msg->goal_state == 1){
     if(msg->goal_id == 1){
       ROS_INFO("Picked up package.");
@@ -14,9 +16,6 @@ void goal_state_callback(cons pick_objects::goal_state_msg::ConstPtr& msg){
       marker.color.a = 1.0;
     }
   }
-  
-  
-
 }
 
 int main( int argc, char** argv )
@@ -27,8 +26,9 @@ int main( int argc, char** argv )
   ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
   
   // Define a subscriber to get robot goal state
-  ros::Subscriber sub = n.subscribe("/goal_state",1,goal_state_callback);  
+  ros::Subscriber sub = n.subscribe("/goal_state",10,goal_state_callback);  
 
+  //ROS_INFO("after spin");
   // Set the frame ID and timestamp.  See the TF tutorials for information on these.
   marker.header.frame_id = "/map";
   marker.header.stamp = ros::Time::now();
@@ -68,6 +68,7 @@ int main( int argc, char** argv )
 
   while (ros::ok())
   {
+    ros::spinOnce();
 
     // Publish the marker
     while (marker_pub.getNumSubscribers() < 1)
@@ -80,6 +81,7 @@ int main( int argc, char** argv )
       sleep(1);
     }
     marker_pub.publish(marker);
+    //ROS_INFO("published marker");
 
     r.sleep();
   }

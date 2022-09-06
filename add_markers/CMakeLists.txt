@@ -10,6 +10,7 @@ project(add_markers)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   visualization_msgs
+  pick_objects
 )
 
 ## System dependencies are found with CMake's conventions
@@ -46,11 +47,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
+#add_message_files(
+#  FILES
+#  pick_objects/msg/goal_state_msg.msg
 #   Message2.msg
-# )
+#)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -102,10 +103,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES add_markers
-#  CATKIN_DEPENDS roscpp visualization_msgs
-#  DEPENDS system_lib
+# INCLUDE_DIRS include
+# CATKIN_DEPENDS roscpp visualization_msgs pick_objects
+# DEPENDS system_lib
 )
 
 ###########
@@ -204,4 +204,5 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 add_executable(add_markers src/add_markers.cpp)
+add_dependencies(pick_objects ${catkin_EXPORTED_TARGETS})
 target_link_libraries(add_markers ${catkin_LIBRARIES})

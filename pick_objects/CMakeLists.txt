@@ -145,7 +145,7 @@ add_executable(pick_objects src/pick_objects.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(pick_objects pick_objects_generate_mesages_cpp)
+add_dependencies(pick_objects pick_objects_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(pick_objects

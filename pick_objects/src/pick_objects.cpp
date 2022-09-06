@@ -47,6 +47,9 @@ int main(int argc, char** argv){
   ROS_INFO("Sending dropoff goal");
   send_to_goal(dropoff_x, dropoff_w, &ac);
 
+  ROS_INFO("Finished task. Shutting down node.");
+  ros::Duration(5.0).sleep();
+
   return 0;
 }
 
