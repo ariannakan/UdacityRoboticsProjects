@@ -40,7 +40,6 @@ int main(int argc, char** argv){
 
   ROS_INFO("Picking up package...");
   ros::Duration(5.0).sleep();
-  ROS_INFO("Picked up package!");
 
   double dropoff_x = -3.0;
   double dropoff_w = 1.0;
