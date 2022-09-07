@@ -7,8 +7,8 @@ echo "Launching amcl.launch"
 xterm -e "roslaunch home_service_robot amcl.launch" &
 sleep 5
 
-echo "Launching turtlebot view_navigation.launch"
-xterm -e "roslaunch turtlebot_rviz_launchers view_navigation.launch" &
+echo "Launching rviz"
+xterm -e "roslaunch home_service_robot rviz.launch" &
 sleep 5
 
 echo "Launching add_markers node"
